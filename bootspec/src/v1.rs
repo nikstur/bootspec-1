@@ -12,7 +12,7 @@ pub const SCHEMA_VERSION: u64 = 1;
 /// The V1 bootspec schema filename.
 pub const JSON_FILENAME: &str = "boot.v1.json";
 
-#[derive(Debug, Default, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 /// V1 of the bootspec schema.
 ///
