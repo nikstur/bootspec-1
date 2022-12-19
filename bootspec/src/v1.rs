@@ -41,8 +41,7 @@ pub struct GenerationV1<Extension = HashMap<String, serde_json::Value>> {
     /// config.system.build.toplevel path
     pub toplevel: SystemConfigurationRoot,
     /// User extensions for this specification
-    #[serde(default)]
-    pub extensions: Extension,
+    pub extensions: Option<Extension>,
 }
 
 impl GenerationV1 {
@@ -121,7 +120,7 @@ impl GenerationV1 {
             initrd_secrets,
             toplevel: SystemConfigurationRoot(generation),
             specialisation: HashMap::new(),
-            extensions: HashMap::new(),
+            extensions: Some(HashMap::new()),
         })
     }
 }

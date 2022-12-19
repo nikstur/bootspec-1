@@ -14,11 +14,11 @@ use crate::v1;
 ///
 /// This enum is nonexhaustive, because there may be future versions added at any point, and tools
 /// should explicitly handle them (e.g. by noting they're currently unsupported).
-pub enum Generation<Extension: Default = HashMap<String, serde_json::Value>> {
+pub enum Generation<Extension = HashMap<String, serde_json::Value>> {
     V1(v1::GenerationV1<Extension>),
 }
 
-impl<Extension: Default> Generation<Extension> {
+impl<Extension> Generation<Extension> {
     /// The version of the bootspec document.
     pub fn version(&self) -> u64 {
         use Generation::*;
@@ -217,7 +217,6 @@ mod tests {
 
         assert_eq!(from_json, expected);
     }
-
 
     #[test]
     fn invalid_json_invalid_version() {

@@ -1,5 +1,5 @@
+use std::convert::TryFrom;
 use std::fmt;
-use std::convert::TryInto;
 
 use std::error::Error;
 use std::path::PathBuf;
@@ -35,15 +35,12 @@ pub const SCHEMA_VERSION: u64 = v1::SCHEMA_VERSION;
 pub const JSON_FILENAME: &str = v1::JSON_FILENAME;
 
 // Enable conversions from Generation into the current Bootspec schema.
-impl<Extension: Default + fmt::Debug> TryInto<BootJson<Extension>> for generation::Generation<Extension> {
-    type Error = Box<dyn Error + Send + Sync + 'static>;
+impl<Extension> TryFrom<generation::Generation<Extension>> for BootJson<Extension> {
+    type Error = &'static str;
 
-    // Rust(-Analyzer) do not guess that Generation is not an exhaustive enum.
-    #[allow(unreachable_patterns)]
-    fn try_into(self) -> Result<BootJson<Extension>> {
-        match self {
-            generation::Generation::V1(v1) => Ok(v1),
-            _ => Err(format!("Unsupported Bootspec generation: {:?}", self).into())
+    fn try_from(value: generation::Generation<Extension>) -> Result<Self, Self::Error> {
+        match value {
+            generation::Generation::V1(boot_json) => Ok(boot_json),
         }
     }
 }
